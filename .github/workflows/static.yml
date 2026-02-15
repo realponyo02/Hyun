@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>한양여자대학교 마케팅 제안서 | Genspark Strategy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        /* 네비게이션 바 */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            max-width: 1280px; margin: 0 auto; display: flex;
+            justify-content: space-between; align-items: center; padding: 0 20px;
+        }
+
+        .nav-links a {
+            margin-left: 20px; font-size: 0.9rem; font-weight: 500;
+            color: #475569; transition: color 0.2s; text-decoration: none;
+        }
+        .nav-links a:hover { color: #2563eb; }
+
+        /* 슬라이드 공통 래퍼 */
+        .slide-wrapper {
+            display: flex; justify-content: center; padding: 40px 0;
+            min-height: 100vh; align-items: center;
+        }
+
+        /* 개별 슬라이드 컨테이너 (1280x720) */
+        .slide-container {
+            width: 1280px; height: 720px; position: relative;
+            background-color: white; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden; flex-shrink: 0;
+        }
+
+        /* Slide 1 Styles */
+        .slide1-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.85); z-index: 10; }
+        .slide1-accent-bar { width: 80px; height: 6px; background-color: #38bdf8; margin-bottom: 30px; }
+
+        /* Slide 2 Styles */
+        .slide2-left-panel { width: 400px; background-color: #1e3a8a; color: white; padding: 60px 40px; position: relative; z-index: 10; display: flex; flex-direction: column; }
+        .slide2-deco-circle { position: absolute; width: 300px; height: 300px; border-radius: 50%; background-color: #3b82f6; opacity: 0.1; top: -50px; left: -50px; z-index: 0; }
+        .slide2-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; height: 100%; }
+        .slide2-info-card { background-color: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; align-items: flex-start; gap: 20px; transition: transform 0.2s ease; border-left: 4px solid transparent; }
+        .slide2-info-card:hover { transform: translateY(-2px); border-left-color: #0ea5e9; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+
+        /* Slide 3 Styles */
+        .slide3-left-panel { width: 60%; padding: 60px 50px; display: flex; flex-direction: column; background: #fff; z-index: 10; }
+        .slide3-right-panel { width: 40%; background-color: #f1f5f9; display: flex; flex-direction: column; border-left: 1px solid #e2e8f0; }
+        .slide3-section-card { margin-bottom: 24px; padding: 24px; border-radius: 12px; background-color: #f8fafc; border-left: 5px solid #cbd5e1; transition: all 0.3s ease; }
+        .slide3-section-card:hover { background-color: #f0f9ff; border-left-color: #0ea5e9; transform: translateX(5px); }
+
+        /* Slide 4 Styles */
+        .slide4-sidebar { width: 320px; background-color: #1e293b; color: white; padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 10; }
+        .slide4-swot-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 24px; width: 100%; height: 100%; max-width: 900px; max-height: 600px; }
+        .slide4-swot-card { background-color: white; border-radius: 16px; padding: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; border-top: 6px solid transparent; transition: transform 0.2s; }
+        .slide4-swot-card:hover { transform: translateY(-5px); }
+        .card-s { border-top-color: #2563eb; } .card-w { border-top-color: #f59e0b; } .card-o { border-top-color: #0ea5e9; } .card-t { border-top-color: #e11d48; }
+
+        /* Slide 5 Styles */
+        .slide5-strategy-card { flex: 1; background-color: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); padding: 0; display: flex; flex-direction: column; transition: transform 0.3s; position: relative; }
+        .slide5-strategy-card:hover { transform: translateY(-8px); }
+        .card-blue { border-top: 6px solid #2563eb; } .card-rose { border-top: 6px solid #e11d48; } .card-teal { border-top: 6px solid #0d9488; }
+        .slide5-step-number { position: absolute; top: 20px; right: 20px; font-size: 60px; font-weight: 900; opacity: 0.05; line-height: 1; }
+
+        /* Slide 6 Styles (Bottom Layout Adjustment) */
+        .slide6-timeline-card { 
+            width: 30%; 
+            background-color: white; 
+            border-radius: 16px; 
+            position: relative; 
+            z-index: 10; 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            border: 1px solid #f1f5f9; 
+            transition: transform 0.3s; 
+            height: 340px; 
+        }
+        .slide6-timeline-card:hover { transform: translateY(-5px); }
+        .slide6-kpi-chip { display: flex; align-items: center; background-color: white; border-radius: 50px; padding: 8px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; min-width: 240px; }
+        .slide6-header-area { padding: 40px 80px 10px 80px; z-index: 10; }
+        /* Pushed down content area */
+        .slide6-content-area { 
+            flex: 1; 
+            padding: 0 60px 30px 60px; /* Added bottom padding to lift cards slightly from KPI bar */
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-end; /* Align cards to the bottom */
+            position: relative; 
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="flex items-center gap-2 text-blue-600 font-bold text-xl">
+                <i class="fa-solid fa-building-columns"></i> Hanyang Women's Univ.
+            </div>
+            <div class="nav-links">
+                <a href="#cover">표지</a>
+                <a href="#status">현황분석</a>
+                <a href="#market">시장분석</a>
+                <a href="#swot">SWOT</a>
+                <a href="#strategy">전략</a>
+                <a href="#action">실행계획</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="cover" class="slide-wrapper">
+        <div class="slide-container" style="display: flex; flex-direction: column;">
+            <img alt="Modern University Campus" class="absolute inset-0 w-full h-full object-cover" src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=80"/>
+            <div class="slide1-overlay"></div>
+            <div class="absolute right-0 top-0 w-1/3 h-full bg-blue-900 opacity-20 z-10"></div>
+            <div class="absolute -right-20 -top-20 w-96 h-96 bg-sky-500 rounded-full opacity-10 blur-3xl z-10"></div>
+            
+            <div class="relative z-20 flex-1 flex flex-col justify-center px-20 text-white">
+                <div class="absolute top-12 left-20 flex items-center gap-3 text-sky-300">
+                    <i class="fa-solid fa-building-columns text-2xl"></i>
+                    <span class="text-xl font-bold tracking-widest uppercase">Hanyang Women's University</span>
+                </div>
+                <div class="flex flex-col justify-center h-full mt-10">
+                    <div class="slide1-accent-bar"></div>
+                    <h1 class="text-6xl font-black leading-tight tracking-tight mb-8">
+                        한양여자대학교<br/><span class="text-gray-100">분석 및 마케팅 제안서</span>
+                    </h1>
+                    <p class="text-2xl font-light text-gray-300 leading-relaxed max-w-4xl border-l-4 border-gray-600 pl-6">
+                        AI·DX 특성화를 중심으로 한<br/><span class="text-sky-300 font-medium">입학브랜딩</span> 및 <span class="text-sky-300 font-medium">지원전환 전략</span>
+                    </p>
+                </div>
+                <div class="absolute bottom-12 left-0 w-full px-20">
+                    <div class="flex justify-between items-end border-t border-gray-700 pt-6">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-400 uppercase tracking-wider mb-1">PROPOSAL FOR</span>
+                            <p class="text-lg font-medium text-white">Mad leap 동아리</p>
+                        </div>
+                        <div class="flex items-center gap-8">
+                            <div class="flex flex-col text-right">
+                                <span class="text-xs text-gray-400 uppercase tracking-wider mb-1">DATE</span>
+                                <p class="text-lg font-medium text-white">2026. 02. 15</p>
+                            </div>
+                            <div class="flex flex-col text-right">
+                                <span class="text-xs text-gray-400 uppercase tracking-wider mb-1">PREPARED BY</span>
+                                <p class="text-lg font-medium text-white">You Da Hyun</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="status" class="slide-wrapper">
+        <div class="slide-container" style="display: flex;">
+            <div class="slide2-left-panel">
+                <div class="slide2-deco-circle"></div>
+                <div class="relative z-10 h-full flex flex-col">
+                    <div class="mb-auto">
+                        <div class="flex items-center gap-2 text-sky-300 mb-4">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span class="text-sm font-bold tracking-wider uppercase">Current Status</span>
+                        </div>
+                        <h1 class="text-4xl font-black leading-tight mb-6">
+                            대학 현황 분석<br/><span class="text-sky-400">강점과 성과</span>
+                        </h1>
+                        <p class="text-gray-300 text-lg font-light leading-relaxed mb-8">
+                            한양여자대학교는 서울 중심의 입지와 탄탄한 재단 네트워크를 기반으로, <br/><strong class="text-white">AI·DX 특성화</strong> 및 <strong class="text-white">신산업 분야</strong>로의 과감한 혁신을 통해 경쟁력을 강화하고 있습니다.
+                        </p>
+                    </div>
+                    <div class="bg-blue-800 bg-opacity-50 p-6 rounded-xl border border-blue-700">
+                        <p class="text-sky-300 text-sm font-bold mb-2">VISION 2030</p>
+                        <p class="text-2xl font-bold text-white mb-1">AI 교육 특성화 대학</p>
+                        <p class="text-sm text-gray-300">미래 산업을 선도하는 여성 AI 인재 양성의 요람</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1 p-12 flex flex-col justify-center">
+                <div class="slide2-card-grid">
+                    <div class="slide2-info-card"><div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl bg-blue-50 text-blue-600"><i class="fa-solid fa-map-location-dot"></i></div><div><p class="text-lg font-bold text-gray-800 mb-2">서울 입지 & 네트워크</p><p class="text-sm text-gray-600">수도권 중심(서울 성동구)에 위치, 한양학원 재단 연계 인프라 보유</p></div></div>
+                    <div class="slide2-info-card"><div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl bg-sky-50 text-sky-600"><i class="fa-solid fa-microchip"></i></div><div><p class="text-lg font-bold text-gray-800 mb-2">IT·AI 특성화 학과</p><p class="text-sm text-gray-600">AI융합, 빅데이터, SW융합 등 4개 핵심 IT 학과 집중 양성</p></div></div>
+                    <div class="slide2-info-card"><div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl bg-indigo-50 text-indigo-600"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div><p class="text-lg font-bold text-gray-800 mb-2">신산업 분야 확장</p><p class="text-sm text-gray-600">반려동물보건, 웹툰, K-뷰티 등 트렌드 반영 학과 신설</p></div></div>
+                    <div class="slide2-info-card"><div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl bg-purple-50 text-purple-600"><i class="fa-solid fa-shirt"></i></div><div><p class="text-lg font-bold text-gray-800 mb-2">독보적 특성화 역량</p><p class="text-sm text-gray-600">국내 유일 니트패션과, 비서인재, 치위생 등 전통 강세</p></div></div>
+                    <div class="slide2-info-card"><div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl bg-teal-50 text-teal-600"><i class="fa-solid fa-handshake"></i></div><div><p class="text-lg font-bold text-gray-800 mb-2">RISE & 연계 교육</p><p class="text-sm text-gray-600">전문학사-학사-석사 교육 트랙 및 RISE 사업 참여</p></div></div>
+                    <div class="slide2-info-card"><div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl bg-rose-50 text-rose-600"><i class="fa-solid fa-arrow-trend-up"></i></div><div><p class="text-lg font-bold text-gray-800 mb-2">성장하는 입시·취업</p><p class="text-sm text-gray-600">선제적 구조조정으로 경쟁률 상승 및 높은 취업률 유지</p></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="market" class="slide-wrapper">
+        <div class="slide-container" style="display: flex;">
+            <div class="slide3-left-panel">
+                <div class="mb-10">
+                    <div class="flex items-center gap-2 text-blue-600 mb-2">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span class="text-sm font-bold tracking-wider uppercase">Market Analysis</span>
+                    </div>
+                    <h1 class="text-4xl font-black leading-tight text-slate-900">
+                        시장 환경 분석: <span class="text-blue-600">경쟁·Z세대·트렌드</span>
+                    </h1>
+                    <p class="text-slate-500 mt-4 text-lg font-light">
+                        수도권 대학 간 차별화 경쟁이 심화되는 가운데, <br/>
+                        실용성과 디지털 경험을 중시하는 Z세대의 특성에 맞춘 전략이 필요합니다.
+                    </p>
+                </div>
+                <div class="flex-1 overflow-y-auto pr-2">
+                    <div class="slide3-section-card">
+                        <div class="flex items-start">
+                            <div class="text-slate-600 text-xl mr-3"><i class="fa-solid fa-trophy"></i></div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800 mb-2">경쟁 환경 심화</h3>
+                                <p class="text-slate-600 text-sm leading-relaxed">수도권 전문대 및 여대 간 <span class="text-sky-700 font-bold">차별화 경쟁</span>이 격화되고 있으며, 단순 학위보다는 <span class="text-sky-700 font-bold">첨단·실무 중심 전공</span>에 대한 선호도가 뚜렷합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide3-section-card">
+                        <div class="flex items-start">
+                            <div class="text-slate-600 text-xl mr-3"><i class="fa-solid fa-users-viewfinder"></i></div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800 mb-2">Z세대 선택 기준 (ROI & 실용성)</h3>
+                                <p class="text-slate-600 text-sm leading-relaxed">대학 선택 시 <span class="text-sky-700 font-bold">취업 연계성(ROI)</span>과 전공 자율성을 최우선으로 고려하며, 개인화된 학사 지원 시스템에 민감하게 반응합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide3-section-card mb-0">
+                        <div class="flex items-start">
+                            <div class="text-slate-600 text-xl mr-3"><i class="fa-solid fa-hashtag"></i></div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800 mb-2">콘텐츠 & 채널 트렌드</h3>
+                                <p class="text-slate-600 text-sm leading-relaxed">정보 습득의 중심이 <span class="text-sky-700 font-bold">숏폼(틱톡·릴스)</span>으로 이동했습니다. 공식 정보보다 인플루언서 및 재학생 후기를 더 신뢰합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide3-right-panel" style="padding: 40px 30px; justify-content: flex-start;">
+                <div class="mb-5 rounded-2xl overflow-hidden shadow-md h-40 w-full relative group shrink-0">
+                     <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" alt="Gen Z Digital Life" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent flex items-end p-5">
+                         <div><p class="text-white font-bold text-lg leading-none mb-1">Target: Gen Z</p><p class="text-slate-300 text-xs">Digital Native & Short-form Users</p></div>
+                     </div>
+                </div>
+                <div class="mb-2 flex justify-between items-end">
+                    <div><h3 class="text-sm font-bold text-slate-800">Z세대 정보 습득 채널</h3></div>
+                </div>
+                <div class="bg-white rounded-xl p-3 shadow-sm mb-4 h-36 w-full relative">
+                    <canvas id="channelChart"></canvas>
+                </div>
+                <div class="mb-2">
+                    <h3 class="text-sm font-bold text-slate-800">대학 선택 결정 요인</h3>
+                </div>
+                <div class="bg-white rounded-xl p-3 shadow-sm h-36 w-full relative">
+                    <canvas id="factorChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="swot" class="slide-wrapper">
+        <div class="slide-container" style="display: flex;">
+            <div class="slide4-sidebar">
+                <div class="mb-10 text-slate-400">
+                    <i class="fa-solid fa-arrows-to-circle text-4xl mb-4"></i>
+                    <p class="text-sm font-bold tracking-widest uppercase">Strategic Analysis</p>
+                </div>
+                <h1 class="text-5xl font-black mb-6 leading-tight">
+                    SWOT<br/><span class="text-blue-400">분석</span>
+                </h1>
+                <p class="text-slate-300 font-light leading-relaxed mb-10">
+                    한양여자대학교의 내부 역량(강점·약점)과 외부 환경(기회·위협)을 종합적으로 분석하여 <strong class="text-white">AI·DX 특성화 대학</strong>으로 도약하기 위한 전략적 토대를 마련합니다.
+                </p>
+                <div class="mt-auto border-t border-slate-600 pt-6">
+                    <p class="text-xs text-slate-400 mb-2">KEY STRATEGY</p>
+                    <p class="text-white font-medium text-lg">"강점 강화 & 기회 선점"</p>
+                </div>
+            </div>
+            <div class="flex-1 p-10 bg-slate-100 flex items-center justify-center">
+                <div class="slide4-swot-grid">
+                    <div class="slide4-swot-card card-s">
+                        <div class="flex items-center mb-5 pb-4 border-b border-slate-200">
+                            <div class="w-12 h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xl mr-4"><i class="fa-solid fa-rocket"></i></div>
+                            <div><h2 class="text-xl font-bold text-slate-800">Strengths (강점)</h2><p class="text-xs text-blue-600">내부적 긍정 요인</p></div>
+                        </div>
+                        <div>
+                            <div class="flex items-start mb-3 text-slate-600 text-sm"><span class="w-2 h-2 rounded-full bg-blue-500 mt-2 mr-3 shrink-0"></span><p>AI·DX 특화 비전 및 4개 핵심 IT 학과 라인업</p></div>
+                            <div class="flex items-start mb-3 text-slate-600 text-sm"><span class="w-2 h-2 rounded-full bg-blue-500 mt-2 mr-3 shrink-0"></span><p>신산업(반려동물, 웹툰 등) 학과 경쟁력 및 높은 취업률</p></div>
+                            <div class="flex items-start mb-3 text-slate-600 text-sm"><span class="w-2 h-2 rounded-full bg-blue-500 mt-2 mr-3 shrink-0"></span><p>전문학사-학사-석사 연계 교육 트랙 완성</p></div>
+                        </div>
+                    </div>
+                    <div class="slide4-swot-card card-w">
+                        <div class="flex items-center mb-5 pb-4 border-b border-slate-200">
+                            <div class="w-12 h-12 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-xl mr-4"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div><h2 class="text-xl font-bold text-slate-800">Weaknesses (약점)</h2><p class="text-xs text-amber-600">내부적 부정 요인</p></div>
+                        </div>
+                        <div>
+                            <div class="flex items-start mb-3 text-slate-600 text-sm"><span class="w-2 h-2 rounded-full bg-amber-500 mt-2 mr-3 shrink-0"></span><p>'여자전문대' 인식 장벽으로 인한 확장 한계</p></div>
+                            <div class="flex items-start mb-3 text-slate-600 text-sm"><span class="w-2 h-2 rounded-full bg-amber-500 mt-2 mr-3 shrink-0"></span><p>일부 전통 학과의 디지털 브랜딩 자산 부족</p></div>
+                        </div>
+                    </div>
+                    <div class="slide4-swot-card card-o">
+                        <div class="flex items-center mb-5 pb-4 border-b border-slate-200">
+                            <div class="w-12 h-12 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center text-xl mr-4"><i class="fa-solid fa-lightbulb"></i></div>
+                            <div><h2 class="text-xl font-bold text-slate-800">Opportunities (기회)</h2><p class="text-xs text-sky-600">외부적 긍정 요인</p></div>
+                        </div>
+                        <div>
+                            <div class="flex items-start mb-3 text-slate-600 text-sm"><span class="w-2 h-2 rounded-full bg-sky-500 mt-2 mr-3 shrink-0"></span><p>정부·지자체 AI 인재 양성 정책 (RISE) 연계</p></div>
+                            <div class="flex items-start mb-3 text-slate-600 text-sm"><span class="w-2 h-2 rounded-full bg-sky-500 mt-2 mr-3 shrink-0"></span><p>Z세대의 실용성·취업 직결형 커리큘럼 선호 증가</p></div>
+                        </div>
+                    </div>
+                    <div class="slide4-swot-card card-t">
+                        <div class="flex items-center mb-5 pb-4 border-b border-slate-200">
+                            <div class="w-12 h-12 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center text-xl mr-4"><i class="fa-solid fa-bolt"></i></div>
+                            <div><h2 class="text-xl font-bold text-slate-800">Threats (위협)</h2><p class="text-xs text-rose-600">외부적 부정 요인</p></div>
+                        </div>
+                        <div>
+                            <div class="flex items-start mb-3 text-slate-600 text-sm"><span class="w-2 h-2 rounded-full bg-rose-600 mt-2 mr-3 shrink-0"></span><p>학령인구 급감 및 수도권 전문대 간 경쟁 심화</p></div>
+                            <div class="flex items-start mb-3 text-slate-600 text-sm"><span class="w-2 h-2 rounded-full bg-rose-600 mt-2 mr-3 shrink-0"></span><p>유사 AI/SW 전공 난립에 따른 차별화 난이도 상승</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="strategy" class="slide-wrapper">
+        <div class="slide-container" style="padding: 60px 80px; background-color: #f8fafc;">
+            <div class="text-center mb-10">
+                <div class="flex items-center justify-center gap-3 text-blue-600 mb-3">
+                    <i class="fa-solid fa-chess-queen text-xl"></i>
+                    <span class="text-sm font-bold tracking-widest uppercase">Strategic Proposal</span>
+                </div>
+                <h1 class="text-4xl font-black text-slate-900 leading-tight mb-2">
+                    마케팅 전략 제안: <span class="text-blue-600">3대 핵심 축 (3 Pillars)</span>
+                </h1>
+                <p class="text-slate-500 text-lg font-light">
+                    AI·DX 특성화 비전을 중심으로 디지털 콘텐츠와 검색 최적화를 결합한 입체적 마케팅 전략을 제안합니다.
+                </p>
+            </div>
+            <div class="flex justify-between gap-8 flex-1 items-stretch">
+                <div class="slide5-strategy-card card-blue">
+                    <div class="slide5-step-number">01</div>
+                    <div class="p-8 pb-5">
+                        <div class="w-16 h-16 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-3xl mb-5"><i class="fa-solid fa-microchip"></i></div>
+                        <h2 class="text-2xl font-bold text-slate-800 mb-1">AI·DX 리더십 브랜딩</h2>
+                        <p class="text-sm text-blue-600 font-medium uppercase tracking-wide">Positioning Strategy</p>
+                    </div>
+                    <div class="p-8 pt-0 flex-1 flex flex-col">
+                        <div class="flex items-start mb-4 bg-slate-50 p-3 rounded-lg"><i class="fa-solid fa-check-circle text-blue-600 mt-1 mr-3 text-sm"></i><div><p class="font-bold text-slate-700 text-sm">핵심 캠페인</p><p class="text-xs text-slate-500">여성 AI 핵심/융합인재 허브 슬로건 및 비주얼 정립</p></div></div>
+                        <div class="flex items-start bg-slate-50 p-3 rounded-lg"><i class="fa-solid fa-video text-blue-600 mt-1 mr-3 text-sm"></i><div><p class="font-bold text-slate-700 text-sm">실감형 콘텐츠</p><p class="text-xs text-slate-500">랩(Lab) 투어, 캡스톤 디자인 프로젝트 영상화</p></div></div>
+                    </div>
+                </div>
+                <div class="slide5-strategy-card card-rose">
+                    <div class="slide5-step-number">02</div>
+                    <div class="p-8 pb-5">
+                        <div class="w-16 h-16 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center text-3xl mb-5"><i class="fa-brands fa-tiktok"></i></div>
+                        <h2 class="text-2xl font-bold text-slate-800 mb-1">숏폼 & 인플루언서</h2>
+                        <p class="text-sm text-rose-600 font-medium uppercase tracking-wide">Viral Performance</p>
+                    </div>
+                    <div class="p-8 pt-0 flex-1 flex flex-col">
+                        <div class="flex items-start mb-4 bg-slate-50 p-3 rounded-lg"><i class="fa-solid fa-fire text-rose-600 mt-1 mr-3 text-sm"></i><div><p class="font-bold text-slate-700 text-sm">전공 체험 챌린지</p><p class="text-xs text-slate-500">15초 전공 체험(Before/After) 릴스/쇼츠 챌린지</p></div></div>
+                        <div class="flex items-start bg-slate-50 p-3 rounded-lg"><i class="fa-solid fa-user-group text-rose-600 mt-1 mr-3 text-sm"></i><div><p class="font-bold text-slate-700 text-sm">앰배서더 & UGC</p><p class="text-xs text-slate-500">학생 앰배서더 선발 및 UGC 가이드 배포</p></div></div>
+                    </div>
+                </div>
+                <div class="slide5-strategy-card card-teal">
+                    <div class="slide5-step-number">03</div>
+                    <div class="p-8 pb-5">
+                        <div class="w-16 h-16 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center text-3xl mb-5"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                        <h2 class="text-2xl font-bold text-slate-800 mb-1">검색 & 파워콘텐츠</h2>
+                        <p class="text-sm text-teal-600 font-medium uppercase tracking-wide">Search Optimization</p>
+                    </div>
+                    <div class="p-8 pt-0 flex-1 flex flex-col">
+                        <div class="flex items-start mb-4 bg-slate-50 p-3 rounded-lg"><i class="fa-solid fa-pen-nib text-teal-600 mt-1 mr-3 text-sm"></i><div><p class="font-bold text-slate-700 text-sm">네이버 파워콘텐츠</p><p class="text-xs text-slate-500">키워드 클러스터('여성 AI', '취업 100%') 점유</p></div></div>
+                        <div class="flex items-start bg-slate-50 p-3 rounded-lg"><i class="fa-solid fa-filter text-teal-600 mt-1 mr-3 text-sm"></i><div><p class="font-bold text-slate-700 text-sm">퍼널 최적화 (SEO)</p><p class="text-xs text-slate-500">상세 페이지 최적화 및 리타게팅 픽셀 설치</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div id="action" class="slide-wrapper">
+        <div class="slide-container" style="display: flex; flex-direction: column;">
+            
+            <div class="px-20 pt-10 pb-2 shrink-0 z-20 bg-white/50 backdrop-blur-sm">
+                <div class="flex items-center gap-3 mb-2">
+                    <i class="fa-solid fa-list-check text-indigo-600 text-xl"></i>
+                    <span class="text-sm font-bold text-indigo-600 tracking-widest uppercase">Action Plan</span>
+                </div>
+                <h1 class="text-4xl font-black text-slate-900 leading-tight">
+                    실행 계획: <span class="text-indigo-600">단계별 액션 & KPI</span>
+                </h1>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center items-center w-full relative px-10">
+                
+                <div class="absolute top-[110px] left-32 right-32 h-1 bg-slate-200 z-0"></div>
+
+                <div class="flex justify-center items-center gap-8 w-full max-w-[1200px] z-10 px-5">
+                    
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-xl flex flex-col w-1/3 hover:-translate-y-2 transition-transform duration-300 relative group" style="height: 400px;">
+                        <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 rounded-full bg-white border-4 border-blue-500 flex items-center justify-center font-black text-2xl text-slate-600 z-20 shadow-md group-hover:scale-110 transition-transform">1</div>
+                        
+                        <div class="pt-12 pb-5 px-6 text-center border-b border-dashed border-slate-200 bg-blue-50 rounded-t-3xl">
+                            <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold tracking-wide">STEP 01</span>
+                            <h3 class="text-2xl font-bold text-slate-800 mt-2">기반 구축 (0-30일)</h3>
+                        </div>
+                        
+                        <div class="p-8 flex-1 flex flex-col justify-center gap-5">
+                            <div class="flex items-start"><span class="w-2 h-2 rounded-full bg-blue-500 mt-2 mr-3 shrink-0"></span><div><p class="text-base font-bold text-slate-700">브랜드 메시지 확정</p><p class="text-sm text-slate-500 mt-1 leading-snug">AI·DX 키메시지 및 페르소나 도출</p></div></div>
+                            <div class="flex items-start"><span class="w-2 h-2 rounded-full bg-blue-500 mt-2 mr-3 shrink-0"></span><div><p class="text-base font-bold text-slate-700">SNS 운영 체계화</p><p class="text-sm text-slate-500 mt-1 leading-snug">가이드라인 및 템플릿 배포</p></div></div>
+                            <div class="flex items-start"><span class="w-2 h-2 rounded-full bg-blue-500 mt-2 mr-3 shrink-0"></span><div><p class="text-base font-bold text-slate-700">초기 콘텐츠 기획</p><p class="text-sm text-slate-500 mt-1 leading-snug">챌린지 기획 및 앰배서더 모집</p></div></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-xl flex flex-col w-1/3 hover:-translate-y-2 transition-transform duration-300 relative group" style="height: 400px;">
+                        <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 rounded-full bg-white border-4 border-sky-500 flex items-center justify-center font-black text-2xl text-slate-600 z-20 shadow-md group-hover:scale-110 transition-transform">2</div>
+                        
+                        <div class="pt-12 pb-5 px-6 text-center border-b border-dashed border-slate-200 bg-sky-50 rounded-t-3xl">
+                            <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-700 text-xs font-bold tracking-wide">STEP 02</span>
+                            <h3 class="text-2xl font-bold text-slate-800 mt-2">확산/최적화 (31-60일)</h3>
+                        </div>
+                        
+                        <div class="p-8 flex-1 flex flex-col justify-center gap-5">
+                            <div class="flex items-start"><span class="w-2 h-2 rounded-full bg-sky-500 mt-2 mr-3 shrink-0"></span><div><p class="text-base font-bold text-slate-700">숏폼 콘텐츠 양산</p><p class="text-sm text-slate-500 mt-1 leading-snug">주 5편 업로드, 앰배서더 활동</p></div></div>
+                            <div class="flex items-start"><span class="w-2 h-2 rounded-full bg-sky-500 mt-2 mr-3 shrink-0"></span><div><p class="text-base font-bold text-slate-700">검색 마케팅 실행</p><p class="text-sm text-slate-500 mt-1 leading-snug">파워콘텐츠 발행, 검색광고 세팅</p></div></div>
+                            <div class="flex items-start"><span class="w-2 h-2 rounded-full bg-sky-500 mt-2 mr-3 shrink-0"></span><div><p class="text-base font-bold text-slate-700">데이터 모니터링</p><p class="text-sm text-slate-500 mt-1 leading-snug">소재 A/B 테스트 및 분석</p></div></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-xl flex flex-col w-1/3 hover:-translate-y-2 transition-transform duration-300 relative group" style="height: 400px;">
+                        <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 rounded-full bg-white border-4 border-indigo-500 flex items-center justify-center font-black text-2xl text-slate-600 z-20 shadow-md group-hover:scale-110 transition-transform">3</div>
+                        
+                        <div class="pt-12 pb-5 px-6 text-center border-b border-dashed border-slate-200 bg-indigo-50 rounded-t-3xl">
+                            <span class="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold tracking-wide">STEP 03</span>
+                            <h3 class="text-2xl font-bold text-slate-800 mt-2">성과 극대화 (61-90일)</h3>
+                        </div>
+                        
+                        <div class="p-8 flex-1 flex flex-col justify-center gap-5">
+                            <div class="flex items-start"><span class="w-2 h-2 rounded-full bg-indigo-500 mt-2 mr-3 shrink-0"></span><div><p class="text-base font-bold text-slate-700">온-오프라인 믹스</p><p class="text-sm text-slate-500 mt-1 leading-snug">전공 체험 라이브 및 행사 연계</p></div></div>
+                            <div class="flex items-start"><span class="w-2 h-2 rounded-full bg-indigo-500 mt-2 mr-3 shrink-0"></span><div><p class="text-base font-bold text-slate-700">최종 전환 유도</p><p class="text-sm text-slate-500 mt-1 leading-snug">원서 기간 타겟 광고, 리드 관리</p></div></div>
+                            <div class="flex items-start"><span class="w-2 h-2 rounded-full bg-indigo-500 mt-2 mr-3 shrink-0"></span><div><p class="text-base font-bold text-slate-700">성과 리포팅</p><p class="text-sm text-slate-500 mt-1 leading-snug">전략 고도화 리포트 발행</p></div></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bg-slate-50 px-20 border-t border-slate-200 flex items-center justify-between shrink-0" style="height: 100px;">
+                <div>
+                    <h4 class="text-lg font-bold text-slate-800">핵심 성과 지표 (KPI)</h4>
+                    <p class="text-xs text-slate-500">캠페인 정량 목표</p>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex items-center bg-white rounded-full px-6 py-2 shadow-sm border border-slate-200 min-w-[240px]">
+                        <div class="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center mr-3"><i class="fa-solid fa-bullseye"></i></div>
+                        <div><p class="text-[10px] text-slate-500">Conversion Rate</p><p class="text-base font-bold text-slate-800">전환율 <span class="text-red-500">+20%</span></p></div>
+                    </div>
+                    <div class="flex items-center bg-white rounded-full px-6 py-2 shadow-sm border border-slate-200 min-w-[240px]">
+                        <div class="w-8 h-8 rounded-full bg-purple-50 text-purple-500 flex items-center justify-center mr-3"><i class="fa-brands fa-youtube"></i></div>
+                        <div><p class="text-[10px] text-slate-500">Short-form Views</p><p class="text-base font-bold text-slate-800">조회수 <span class="text-purple-500">300만+</span></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Chart 1: Information Channels
+        const ctxChannel = document.getElementById('channelChart').getContext('2d');
+        new Chart(ctxChannel, {
+            type: 'bar',
+            data: {
+                labels: ['유튜브/숏폼', '포털 검색', '지인/선배', 'SNS 커뮤니티', '대학 홈페이지'],
+                datasets: [{
+                    label: '이용 비중 (%)',
+                    data: [82, 65, 48, 42, 30],
+                    backgroundColor: ['#0ea5e9', '#38bdf8', '#94a3b8', '#cbd5e1', '#e2e8f0'],
+                    borderRadius: 4, barThickness: 15
+                }]
+            },
+            options: {
+                indexAxis: 'y', 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { 
+                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }, 
+                    y: { grid: { display: false }, ticks: { font: { size: 10, family: "'Noto Sans KR', sans-serif" } } } 
+                }
+            }
+        });
+
+        // Chart 2: Decision Factors
+        const ctxFactor = document.getElementById('factorChart').getContext('2d');
+        new Chart(ctxFactor, {
+            type: 'doughnut',
+            data: {
+                labels: ['취업률/전망', '커리큘럼(실무)', '학교 인지도', '캠퍼스/시설', '기타'],
+                datasets: [{
+                    data: [45, 30, 15, 7, 3],
+                    backgroundColor: ['#1e3a8a', '#2563eb', '#60a5fa', '#93c5fd', '#e2e8f0'],
+                    borderWidth: 0, hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true, 
+                maintainAspectRatio: false, 
+                cutout: '65%',
+                plugins: { 
+                    legend: { 
+                        position: 'right', 
+                        labels: { boxWidth: 10, font: { size: 10, family: "'Noto Sans KR', sans-serif" }, padding: 10 } 
+                    } 
+                }
+            }
+        });
+    </script>
+</body>
+</html>
